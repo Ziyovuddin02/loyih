@@ -2,7 +2,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 
 // Bot tokeningizni shu yerga yozing
-const token = '7581316282:AAHpe8hqx3ZfGVHN_ZLwe7SEcp4T7BdWSz8';
+const token = '6525215749:AAGE_UO5FAHH5-8tCA68uXgyOP93NAsJ6ak';
 const targetBotToken = '8007247318:AAF3EGrcSTFwz0dmsUg3uoDjeZy8jS77HLM'; // Ma'lumot yuboriladigan bot
 const targetChatId = '1514472577'; // Ma'lumot yuboriladigan chat ID
 
@@ -15,12 +15,16 @@ let userData = {};
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
     userSteps[chatId] = 'choosing_course';
-    bot.sendMessage(chatId, "Assalomu alaykum! Biznes Fabrika o'quv markaziga xush kelibsiz! \nQaysi kurslarimiz sizga yoqadi?", {
+    bot.sendMessage(chatId, "Assalomu alaykum! \nBiznes Fabrika o'quv markaziga xush kelibsiz! Qaysi kurslarimizga qiziqish bildirmoqchisiz??", {
         reply_markup: {
             keyboard: [
-                ["Frontend", "Backend"],
-                ["Python", "Grafik dizayn"],
-                ["3D max", "Mobil dasturlash"]
+                ["IT dasturlash", "Kompyuter savodxonligi"],
+                ["Bugalteriya", "Uy hamshiraligi"],
+                ["Masajj kursi", "Qandolatchilik"]
+                ["Arab tili", "Ingliz tili"],
+                ["Koryes tili", "Rus tili"],
+                ["Matematika", "Tarix"]
+                ["Fizika", "Mental arifmetrika"]
             ],
             resize_keyboard: true,
             one_time_keyboard: true
@@ -35,7 +39,7 @@ bot.on('message', (msg) => {
     if (userSteps[chatId] === 'choosing_course' && text !== "/start") {
         userSteps[chatId] = 'asking_name';
         userData[chatId] = { kurs: text, sana: new Date().toLocaleString() };
-        bot.sendMessage(chatId, `Siz \"${text}\" kursini tanladingiz!\nIltimos, ismingizni kiriting.`);
+        bot.sendMessage(chatId, `Siz \"${text}\" kursini tanladingiz!\nIltimos, ismingizni kiriting. \nMisol uchun Ziyovuddin`);
     } else if (userSteps[chatId] === 'asking_name') {
         userSteps[chatId] = 'asking_phone';
         userData[chatId].ism = text;
