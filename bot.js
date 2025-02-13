@@ -12,19 +12,21 @@ const bot = new TelegramBot(token, { polling: true });
 let userSteps = {};
 let userData = {};
 
+// /start komandasi
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
     userSteps[chatId] = 'choosing_course';
-    bot.sendMessage(chatId, "Assalomu alaykum! \nBiznes Fabrika o'quv markaziga xush kelibsiz! Qaysi kurslarimizga qiziqish bildirmoqchisiz??", {
+
+    bot.sendMessage(chatId, "Assalomu alaykum! \nBiznes Fabrika o'quv markaziga xush kelibsiz! Qaysi kurslarimizga qiziqish bildirmoqchisiz?", {
         reply_markup: {
             keyboard: [
                 ["IT dasturlash", "Kompyuter savodxonligi"],
                 ["Bugalteriya", "Uy hamshiraligi"],
-                ["Masajj kursi", "Qandolatchilik"]
+                ["Masajj kursi", "Qandolatchilik"],
                 ["Arab tili", "Ingliz tili"],
-                ["Koryes tili", "Rus tili"],
-                ["Matematika", "Tarix"]
-                ["Fizika", "Mental arifmetrika"]
+                ["Koreys tili", "Rus tili"],
+                ["Matematika", "Tarix"],
+                ["Fizika", "Mental arifmetika"]
             ],
             resize_keyboard: true,
             one_time_keyboard: true
@@ -32,6 +34,7 @@ bot.onText(/\/start/, (msg) => {
     });
 });
 
+// Foydalanuvchi xabarlarini qayta ishlash
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
     const text = msg.text;
@@ -39,31 +42,39 @@ bot.on('message', (msg) => {
     if (userSteps[chatId] === 'choosing_course' && text !== "/start") {
         userSteps[chatId] = 'asking_name';
         userData[chatId] = { kurs: text, sana: new Date().toLocaleString() };
-        bot.sendMessage(chatId, `Siz \"${text}\" kursini tanladingiz!\nIltimos, ismingizni kiriting. \nMisol uchun Ziyovuddin`);
+
+        bot.sendMessage(chatId, `Siz \"${text}\" kursini tanladingiz!\nIltimos, ismingizni kiriting. \nMisol uchun: *Ziyovuddin*`, { parse_mode: 'Markdown' });
+
     } else if (userSteps[chatId] === 'asking_name') {
         userSteps[chatId] = 'asking_phone';
         userData[chatId].ism = text;
-        bot.sendMessage(chatId, `Rahmat, ${text}! Endi iltimos, telefon raqamingizni yuboring.`, {
+
+        bot.sendMessage(chatId, `Rahmat, *${text}*! Endi iltimos, telefon raqamingizni yuboring.`, {
+            parse_mode: 'Markdown',
             reply_markup: {
                 keyboard: [[{ text: "📞 Telefon raqamni yuborish", request_contact: true }]],
                 resize_keyboard: true,
                 one_time_keyboard: true
             }
         });
+
     } else if (msg.contact) {
         userData[chatId].telefon = msg.contact.phone_number;
-        bot.sendMessage(chatId, "Sizning ma'lumotlaringiz qabul qilindi! Tez orada siz bilan bog'lanamiz. Rahmat!", {
+
+        bot.sendMessage(chatId, "✅ Sizning ma'lumotlaringiz qabul qilindi! Tez orada siz bilan bog'lanamiz. Rahmat!", {
             reply_markup: { remove_keyboard: true }
         });
 
         // Ma'lumotni boshqa botga yuborish
         const message = `📌 *Yangi ro'yxatga olish*\n\n📅 Sana: ${userData[chatId].sana}\n📚 Kurs: ${userData[chatId].kurs}\n👤 Ism: ${userData[chatId].ism}\n📞 Telefon: ${userData[chatId].telefon}`;
+
         axios.post(`https://api.telegram.org/bot${targetBotToken}/sendMessage`, {
             chat_id: targetChatId,
             text: message,
             parse_mode: 'Markdown'
         }).catch(err => console.error('Xatolik yuz berdi:', err));
-        
+
+        // Foydalanuvchi ma'lumotlarini o'chirish
         delete userSteps[chatId];
         delete userData[chatId];
     }
