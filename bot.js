@@ -130,6 +130,7 @@ bot.onText(/📚 Kurslar|📚 Курсы/, (msg) => {
     const courses = {
         uz: [
             [{ text: "💻 IT dasturlash", callback_data: "IT_dasturlash" }, { text: "🖥 Kompyuter savodxonligi", callback_data: "Kompyuter_savodxonligi" }],
+            [{ text: "🧑‍💻 Kiberxavfsizlik", callback_data: "Kiberxavfsizlik" }, { text: "🫰 Pochemuchka", callback_data: "Pochemuchka" }],
             [{ text: "📊 Bugalteriya", callback_data: "Bugalteriya" }, { text: "🏥 Uy hamshiraligi", callback_data: "Hamshiralik" }],
             [{ text: "💊 Farmaseftika", callback_data: "Farmaseftika" }, { text: "💆‍♂️ Masajj kursi", callback_data: "Masajj" }],
             [{ text: "🧑‍🔬 Biologiya", callback_data: "Biologiya" }, { text: "📖 Arab tili", callback_data: "Arab" }],
@@ -142,6 +143,7 @@ bot.onText(/📚 Kurslar|📚 Курсы/, (msg) => {
         ],
         ru: [
             [{ text: "💻 Программирование", callback_data: "IT_dasturlash" }, { text: "🖥 Компьютерная грамотность", callback_data: "Kompyuter_savodxonligi" }],
+            [{ "text": "🧑‍💻 Кибербезопасность", "callback_data": "Кибербезопасность" }, { "text": "🫰 Почемучка", "callback_data": "Почемучка" }],
             [{ text: "📊 Бухгалтерия", callback_data: "Bugalteriya" }, { text: "🏥 Медсестра на дому", callback_data: "Hamshiralik" }],
             [{ text: "💊 Фармацевтика", callback_data: "Farmaseftika" }, { text: "💆‍♂️ Курс массажа", callback_data: "Masajj" }],
             [{ text: "🧑‍🔬 Биология", callback_data: "Biologiya" }, { text: "📖 Арабский язык", callback_data: "Arab" }],
